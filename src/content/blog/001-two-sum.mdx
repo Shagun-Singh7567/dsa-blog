@@ -1,0 +1,60 @@
+---
+layout: ../../layouts/Post.astro
+title: "Two Sum"
+day: 1
+date: 2026-06-01
+difficulty: easy
+topics: [arrays, hash map]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+---
+
+## Problem
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+```
+Input:  nums = [2, 7, 11, 15], target = 9
+Output: [0, 1]
+```
+
+## What I tried first
+
+Initially, my approach was to iterate through the array such that every element was checked with the rest to check if they add up to target.
+However, this resulted in a time complexity of the order of O(n²) which wasn't optimal
+
+
+## Optimal approach
+
+Instead of using a nested loop, I created a hashmap where the elements are the keys and their indices are the values.
+Now, with every iteration, it checks whether the (target - element) value is already present in the hashmap, and returns the array with the indices of the elements.
+If not, it keeps looking once it adds the values on the current iteration to the hashmap.
+
+## Solution
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> hMap = new HashMap<>();
+        for(int i = 0; i < nums.length; i++)
+        {
+            if(hMap.containsKey(target-nums[i]))
+            {
+                int[] arr = {hMap.get(target-nums[i]), i};
+                return arr;
+            }
+            hMap.put(nums[i], i);
+        }
+        int[] arr = {};
+        return arr;
+    }
+}
+```
+
+## What I learned
+
+The primary concept was how hashing significantly reduces the order of time complexity, since hashmaps provide O(1) lookups.

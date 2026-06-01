@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.day - a.data.day
+);
+
+const total = posts.length;
+const easy   = posts.filter(p => p.data.difficulty === 'easy').length;
+const medium = posts.filter(p => p.data.difficulty === 'medium').length;
+const hard   = posts.filter(p => p.data.difficulty === 'hard').length;
+---
+<Base title="DSA log">
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="margin:0 0 0.25rem;">DSA Logger</h1>
+    <p style="color:var(--color-muted); font-size:14px; margin:0;">my first blog to express and document my journey while learning Data Structures and Algorithms.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:2.5rem;">
+    {[
+      { label: 'Solved',  value: total  },
+      { label: 'Easy',    value: easy   },
+      { label: 'Medium',  value: medium },
+      { label: 'Hard',    value: hard   },
+    ].map(({ label, value }) => (
+      <div style="background:var(--color-surface); border-radius:8px; padding:0.875rem 1rem;">
+        <p style="font-size:22px; font-weight:700; margin:0;">{value}</p>
+        <p style="font-size:12px; color:var(--color-muted); margin:2px 0 0;">{label}</p>
+      </div>
+    ))}
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:0.5rem;">
+    {posts.map(post => {
+      const dateStr = post.data.date.toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'short'
+      });
+      return (
+        <a
+          href={`/blog/${post.slug}`}
+          style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0.875rem 1rem; background:var(--color-surface); border:0.5px solid var(--color-border); border-radius:8px; text-decoration:none; transition:border-color 0.15s;"
+          onmouseover="this.style.borderColor='rgba(0,0,0,0.25)'"
+          onmouseout="this.style.borderColor=''"
+        >
+          <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+            <span style="font-family:var(--font-mono); font-size:11px; color:var(--color-hint); flex-shrink:0;">
+              {String(post.data.day).padStart(3,'0')}
+            </span>
+            <span style="font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              {post.data.title}
+            </span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+            <span class={`tag tag-${post.data.difficulty}`}>{post.data.difficulty}</span>
+            <span style="font-size:12px; color:var(--color-hint);">{dateStr}</span>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+
+  {posts.length === 0 && (
+    <p style="color:var(--color-muted); font-size:14px;">No posts yet — add your first one in <code>src/content/blog/</code>.</p>
+  )}
+</Base>
