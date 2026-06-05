@@ -1,0 +1,56 @@
+---
+layout: ../../layouts/Post.astro
+title: "Contains Duplicate"
+day: 3
+date: 2026-06-05
+difficulty: easy
+topics: [arrays, hash table, sorting]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+---
+
+## Problem
+
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+```
+Input: nums = [1,2,3,1]
+Output: true
+```
+
+```
+Input: nums = [1,2,3,4]
+Output: false
+```
+
+
+## What I tried first
+
+The first approach I had implemented, was one where I computed the frequency of all the elements and stored them in a HashMap, which would then be checked at the end.
+However, this performs some unnecessary computations since we can stop as soon as we know that there is even a single element with more than one occurence.
+
+## Optimal approach
+
+Instead of using a HashMap, a HashSet, is the better appraoch.
+HashSets can only store unique elements, and any attempt to add more, will result in returning a ```false``` value.
+We can utilize this to our advantage, as soon as the addition of an element returns ```false``` that means that a duplicate exists.
+
+## Solution
+
+```java
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++)
+        {
+            if(set.add(nums[i]) == false)
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me about HashSets and their improved performance over HashMaps.
