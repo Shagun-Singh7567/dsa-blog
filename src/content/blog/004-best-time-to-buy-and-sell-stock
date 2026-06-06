@@ -1,0 +1,60 @@
+---
+layout: ../../layouts/Post.astro
+title: "Best Time To Buy And Sell Stock"
+day: 4
+date: 2026-06-06
+difficulty: easy
+topics: [arrays, dynamic programming]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+```
+
+```
+Input: prices = [7,6,4,3,1]
+Output: 0
+```
+
+
+## What I tried first
+
+Initially, I had tried two pointers which started from the opposite direction and decreased or increased according to their neighbor's values. However, this did not work when the maximum or minimum values did not lie next to each other.
+
+## Optimal approach
+
+So, the actual proper aproach was by using the two pointer approach, except that we keep track of the minimum value in one pointer, and the second pointer iterates through the array as usual, and keeps track of the maximum profit, which is returned at the end.
+## Solution
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for(int i = 0; i < prices.length; i++)
+        {
+            if(prices[i] < min)
+            min = prices[i];
+
+            int curProfit = prices[i] - min;
+            maxProfit = Math.max(maxProfit, curProfit);
+        }
+        return maxProfit;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me about the application of the two pointers technique.
