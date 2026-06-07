@@ -1,0 +1,62 @@
+---
+layout: ../../layouts/Post.astro
+title: "Valid Anagram"
+day: 5
+date: 2026-06-07
+difficulty: easy
+topics: [hash table, string, sorting]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+---
+
+## Problem
+
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+
+```
+Input: s = "anagram", t = "nagaram"
+Output: true
+```
+
+```
+Input: s = "rat", t = "car"
+Output: false
+```
+
+
+## What I tried first
+
+Initially I went for an approach where I stored the frequencies in hashmaps and compared them at the end.
+However, this approach took far too much time and memory.
+
+## Optimal approach
+
+The actual approach was one where instead of an HashMap, an array was used to store the frequency 
+of every single letter and it was referenced through it's ASCII value being subtracted by the 97, which
+gave a general index value. Once the frequencies were checked, the program returns true/false accordingly.
+
+
+## Solution
+
+```java
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length())
+            return false;
+        int[] arr = new int[26];
+        for(int i=0;i<s.length();i++){
+            arr[s.charAt(i)-'a']++;
+            arr[t.charAt(i)-'a']--;
+        }
+        for(int val:arr)
+            if(val !=0)
+                return false;
+        return true;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me about string manipulation and usage of ASCII values for characters.
