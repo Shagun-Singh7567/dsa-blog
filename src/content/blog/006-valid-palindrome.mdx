@@ -1,0 +1,68 @@
+---
+layout: ../../layouts/Post.astro
+title: "Valid Palindrome"
+day: 6
+date: 2026-06-08
+difficulty: easy
+topics: [string, two pointers]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+---
+
+## Problem
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+```
+Input: s = "A man, a plan, a canal: Panama"
+Output: true
+```
+
+```
+Input: s = "race a car"
+Output: false
+```
+
+
+## What I tried first
+
+Initially, I thought of reversing the string and comparing it afterwards, however, it would use extra memory.
+
+## Optimal approach
+
+First, the string was properly trimmed and all special characters were removed, and the letters were 
+turned to lowercase. Now, two pointers ```i``` and ```j``` which move from opposite directions check for 
+each position. If they dont match, alse value is returned.
+
+## Solution
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+        String t = "";
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            if(!Character.isLetterOrDigit(ch))
+            continue;
+            t = t + Character.toLowerCase(ch);
+        }
+        int j = t.length() - 1;
+        int i = 0;
+        while(i <= j)
+        {
+            if(t.charAt(i) != t.charAt(j))
+            return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me about a refresh of character methods and a revision on the two pointer technique.
