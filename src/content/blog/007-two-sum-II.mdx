@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/Post.astro
+title: "Two Sum II - Input Array Is Sorted"
+day: 7
+date: 2026-06-09
+difficulty: medium
+topics: [array, two pointers, binary search]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
+
+Return the indices of the two numbers index1 and index2, each incremented by one, as an integer array [index1, index2] of length 2.
+
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+Your solution must use only constant extra space.
+
+```
+Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+```
+
+```
+Input: numbers = [2,3,4], target = 6
+Output: [1,3]
+```
+
+
+## What I tried first
+
+Initially, the intuitive solution seems to be to check for every single possible combination, which would
+result in a greater time complexity.
+
+Another plausible way to solve it could be using a HashMap, as we did in the original Two Sum problem, 
+however, the problem statement explicitly states that the solution should take constant memory.
+
+## Optimal approach
+
+The optimal appraoch was using two pointers in the opposite directions which increased/decreased as per 
+the sum of the values at both indices. If the sum was smaller than target, the lower pointer increased,
+and if it was larger than the target, the higher pointer decreased.
+
+## Solution
+
+```java
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int[] res = new int[2];
+        int i = 0;
+        int j = numbers.length - 1;
+        while(i < j)
+        {
+            if(numbers[i] + numbers[j] < target)
+            i++;
+            else if(numbers[i] + numbers[j] > target)
+            j--;
+            else
+            break;
+        }
+        res[0] = i+1;
+        res[1] = j+1;
+        return res;
+    }
+}
+```
+
+## What I learned
+
+This problem gave me revision on the two pointer technique.
