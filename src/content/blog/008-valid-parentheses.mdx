@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/Post.astro
+title: "Valid Parentheses"
+day: 8
+date: 2026-06-10
+difficulty: easy
+topics: [string, stack]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+- Open brackets must be closed by the same type of brackets.
+- Open brackets must be closed in the correct order.
+- Every close bracket has a corresponding open bracket of the same type.
+
+```
+Input: s = "()"
+Output: true
+```
+
+```
+Input: s = "([)]"
+Output: false
+```
+
+## Optimal approach
+
+The optimal appraoch was using a stack to keep popping the opening brackets as soon as they're closed.
+At the end, if the stack is empty, the string is valid, but if some elements still remain, it's invalid.
+
+An importaint error that I encountered while writing this code was while comparing the value from the 
+HashMap and the topmost element of the stack. You cannot use the == operator there, since Collections 
+return wrapper classes and not primitive data types.
+
+## Solution
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        Map<Character, Character> hMap = Map.of(')', '(', '}', '{', ']', '[');
+        for(int i = 0; i < s.length(); i++)
+        {
+            if(hMap.containsKey(s.charAt(i)))
+            {
+            if(!stack.isEmpty() && hMap.get(s.charAt(i)).equals(stack.peek()))
+            stack.pop();
+            else
+            return false;
+            }
+            else
+            stack.push(s.charAt(i));
+        }
+
+        if(stack.empty())
+        return true;
+
+        return false;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me about the usage of stacks.
