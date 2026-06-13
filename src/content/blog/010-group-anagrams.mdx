@@ -1,0 +1,56 @@
+---
+layout: ../../layouts/Post.astro
+title: "Group Anagrams"
+day: 10
+date: 2026-06-13
+difficulty: medium
+topics: [array, hash table, string, sorting]
+timeComplexity: "O(n.k)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+```
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+```
+
+```
+Input: strs = [""]
+Output: [[""]]
+```
+
+## What I tried first
+Initially, I tried grouping the strings by sorting them to recognize the anagrams.
+However, this approach takes O(nklogk) time complexity where k is the average length of each string.
+
+## Optimal approach
+The optimal approach is to create a 26 index long array, for each string which stores the frequency
+of each letter, and then use it as the key and the list of strings as the value.
+At the end, the list of all strings is returned.
+
+
+## Solution
+
+```java
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> hMap = new HashMap<>();
+        for (String str : strs) {
+            int[] count = new int[26];
+            for (char ch : str.toCharArray())
+                count[ch - 'a']++;
+            String key = Arrays.toString(count);
+            hMap.computeIfAbsent(key, k -> new ArrayList<>()).add(str);
+        }
+        return new ArrayList<>(hMap.values());
+    }
+}
+```
+
+## What I learned
+
+This problem taught me to use hash maps.
