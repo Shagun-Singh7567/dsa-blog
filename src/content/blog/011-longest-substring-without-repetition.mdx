@@ -1,0 +1,58 @@
+---
+layout: ../../layouts/Post.astro
+title: "Longest Substring Without Repetition"
+day: 11
+date: 2026-06-14
+difficulty: medium
+topics: [array, hash table, string, ]
+timeComplexity: "O(n)"
+spaceComplexity: "O(n)"
+---
+
+## Problem
+
+Given a string s, find the length of the longest substring without duplicate characters.
+
+```
+Input: s = "abcabcbb"
+Output: 3
+```
+
+```
+Input: s = "pwwkew"
+Output: 3
+```
+
+## What I tried first
+Initially, I missed the fact that the duplicates had to be removed from the HashSet, which made the
+test cases fail. However, on realizing my mistake, I was able to fix my solution
+
+## Optimal approach
+The optimal approach is to create a hashset, which stores all the unique values, and if the value already
+exists, then the left end of the sliding window is shifted to the right, and the duplicate element is removed.
+Simultaneously, the maximum length of the window is stored, and returned at the end.
+
+## Solution
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashSet<Character> window = new HashSet<>();
+        int maxLen = 0;
+        int j = 0;
+        for (int i = 0; i < s.length(); i++) {
+            while (window.contains(s.charAt(i))) {
+                window.remove(s.charAt(j));
+                j++;
+            }
+            window.add(s.charAt(i));
+            maxLen = Math.max(i - j + 1, maxLen);
+        }
+        return maxLen;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me to use hash sets and utilize the sliding window technique.
