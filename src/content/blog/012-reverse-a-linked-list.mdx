@@ -1,0 +1,63 @@
+---
+layout: ../../layouts/Post.astro
+title: "Reverse A Linked List"
+day: 12
+date: 2026-06-15
+difficulty: easy
+topics: [linked list, recursion]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+```
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+```
+
+```
+Input: head = [1,2]
+Output: [2,1]
+```
+
+## Optimal approach
+The optimal approach is to take two pointers, ```prev``` and ```curr``` and then connecting the next value
+of curr to prev. The position of curr and prev are then incremented to the next node.
+At the end, curr points to null and prev to the last pointer in the linked list.
+## Solution
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null)
+        return head;
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null)
+        {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me to use linked lists.
