@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/Post.astro
+title: "Middle of Linked List"
+day: 13
+date: 2026-06-16
+difficulty: easy
+topics: [linked list, two pointers]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+
+Given the head of a singly linked list, return the middle node of the linked list.
+If there are two middle nodes, return the second middle node.
+
+```
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+```
+
+```
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+```
+
+## Optimal approach
+The optimal approach is to take two pointers, ```fast``` and ```slow```. They both are initialized 
+as the head and each move two and one stepsper iteration respectively. At the end, when fast either 
+becomes null(if the length is even) or the node next to it becomes null(if the length is odd). Then, the
+slow pointer is returned.
+## Solution
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me to use the two pointer technique on linked lists.
