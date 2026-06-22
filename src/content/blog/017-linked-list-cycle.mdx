@@ -1,0 +1,70 @@
+---
+layout: ../../layouts/Post.astro
+title: "Linked List Cycle"
+day: 17
+date: 2026-06-22
+difficulty: easy
+topics: [linked list, hash table, two pointers]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+```
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+```
+
+```
+Input: head = [1,2], pos = 0
+Output: true
+```
+
+## What I tried first
+Initially, a possible solution was to store all the nodes (not the values since there may be duplicates)
+in a HashSet, which would obviously tell us if a node was repeated. However, this approach requires
+linear memory space.
+
+
+## Optimal approach
+The optimal approach, one using constant memory, is to use a fast and slow pointer. When the pointers
+intersect at the same node, we know that a cycle exists, otherwise, we eventually encounter a null value.
+
+## Solution
+
+```java
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast)
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+## What I learned
+
+This problem taught me to use linked lists and the two pointer technique, along with Floyd's cycle detection algorithm.
