@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/Post.astro
+title: "Move Zeroes"
+day: 19
+date: 2026-06-28
+difficulty: easy
+topics: [array, math, two pointers]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+ 
+```
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+```
+
+```
+Input: nums = [0]
+Output: [0]
+```
+
+## What I tried first
+Initially, the first idea to come in mind is to make an array and add all the non zero elements first,
+followed by the zeroes. However, this takes an extra order of memory, and we are asked to solve the
+problem in place.
+So, when it comes to in place moving, we need to keep track of how the elements will have to be changed
+by modifying the pre-existing array.
+
+## Optimal approach
+The optimal approach is to keep a track of the position of where our non zero elements in a pointer 
+```pos``` At the end, when our non zero elements are in their place, we make the rest of the array zero.
+
+## Solution
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int pos = 0;
+        for(int i = 0; i < nums.length; i++)
+        {
+            if(nums[i] != 0)
+            {
+            nums[pos] = nums[i];
+            pos++;
+            }
+        }
+        for(int j = pos; j < nums.length; j++)
+        nums[j] = 0;
+    }
+}
+```
+
+## What I learned
+
+This problem gave me a brush up on the two pointer technique.
