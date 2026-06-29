@@ -1,39 +1,86 @@
 ---
+import '../styles/global.css';
 import Base from './Base.astro';
 
 const { frontmatter } = Astro.props;
-const { title, day, date, difficulty, topics, timeComplexity, spaceComplexity } = frontmatter;
+const {
+  title,
+  day,
+  date,
+  difficulty,
+  topics = [],
+  timeComplexity,
+  spaceComplexity,
+  isUni = false,
+  isFavourite = false,
+  source = '',
+} = frontmatter;
 
 const dateStr = new Date(date).toLocaleDateString('en-GB', {
   day: 'numeric', month: 'long', year: 'numeric'
 });
+
+const activeTab = isUni ? 'uni' : isFavourite ? 'favourites' : 'problems';
 ---
-<Base title={`Day ${day} — ${title}`}>
+
+<Base title={`Day ${String(day).padStart(3,'0')} — ${title}`} activeTab={activeTab}>
+
   <header style="margin-bottom:2rem;">
     <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.75rem;">
       <span style="font-size:12px; font-family:var(--font-mono); color:var(--color-hint);">
         Day {String(day).padStart(3, '0')} — {dateStr}
       </span>
-      <a href="/" style="font-size:12px; color:var(--color-muted); text-decoration:none;">← all problems</a>
+      <a href={isUni ? '/uni' : isFavourite ? '/favourites' : '/'}
+         style="font-size:12px; color:var(--color-muted); text-decoration:none;">← back</a>
     </div>
 
     <h1 style="margin:0 0 0.75rem;">{title}</h1>
 
-    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
-      <span class={`tag tag-${difficulty}`}>{difficulty}</span>
+    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:1rem;">
+      <span class={`tag tag-${difficulty.toLowerCase()}`}>{difficulty}</span>
+      {isUni      && <span class="tag tag-uni">uni</span>}
+      {isFavourite && <span class="tag tag-fav">★ fav</span>}
       {topics.map((t: string) => <span class="tag tag-topic">{t}</span>)}
     </div>
 
-    <div style="display:flex; gap:1.5rem; margin-top:1rem; font-size:13px; color:var(--color-muted);">
-      <span>Time <span class="mono" style="color:var(--color-text);">{timeComplexity}</span></span>
+    <div style="display:flex; gap:1.5rem; font-size:13px; color:var(--color-muted);">
+      <span>Time  <span class="mono" style="color:var(--color-text);">{timeComplexity}</span></span>
       <span>Space <span class="mono" style="color:var(--color-text);">{spaceComplexity}</span></span>
     </div>
+
+    {source && (
+      <div style="margin-top:0.5rem; font-size:12px; font-family:var(--font-mono); color:var(--color-hint);">
+        {source}
+      </div>
+    )}
   </header>
+
+  {isUni && (
+    <div style="background:var(--color-surface); border:0.5px solid var(--color-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--color-muted); margin-bottom:1.5rem;">
+      📚 University assignment — graded submission
+    </div>
+  )}
+
+  {isFavourite && !isUni && (
+    <div style="background:var(--color-surface); border:0.5px solid var(--color-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--color-muted); margin-bottom:1.5rem;">
+      ★ Marked as a favourite problem
+    </div>
+  )}
 
   <hr />
 
   <slot />
 
   <hr />
-  <a href="/" style="font-size:13px; color:var(--color-muted); text-decoration:none;">← back to all problems</a>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+    <a href={isUni ? '/uni' : isFavourite ? '/favourites' : '/'}
+       style="font-size:13px; color:var(--color-muted); text-decoration:none;">
+      ← {isUni ? 'uni challenges' : isFavourite ? 'favourites' : 'all problems'}
+    </a>
+    {isFavourite && (
+      <a href="/favourites" style="font-size:13px; color:var(--color-muted); text-decoration:none;">★ all favourites</a>
+    )}
+  </div>
+
 </Base>

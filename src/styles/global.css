@@ -52,8 +52,10 @@ main {
   margin: 0 auto;
 }
 
-a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-a:hover { color: var(--color-muted); }
+a { color: var(--color-text); text-decoration: underline; text-underline-offset: 3px; }
+a:link    { color: var(--color-text); }
+a:visited { color: var(--color-text); }
+a:hover   { color: var(--color-muted); }
 
 pre, code { font-family: var(--font-mono); }
 
@@ -118,3 +120,15 @@ blockquote {
 }
 
 .mono { font-family: var(--font-mono); }
+
+.post-row {
+  display: block;
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin: 0 -0.75rem;
+  transition: background 0.12s;
+}
+.post-row:hover {
+  background: var(--color-surface);
+}
