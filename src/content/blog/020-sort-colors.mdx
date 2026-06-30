@@ -1,0 +1,72 @@
+---
+layout: ../../layouts/Post.astro
+title: "Sort Colors"
+day: 20
+date: 2026-06-29
+difficulty: medium
+topics: [array, sorting, two pointers]
+timeComplexity: "O(n)"
+spaceComplexity: "O(1)"
+---
+
+## Problem
+Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the library's sort function.
+ 
+```
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+```
+
+```
+Input: nums = [2,0,1]
+Output: [0,1,2]
+```
+
+## What I tried first
+The absolute first approach that came to mind was to sort the array completely, however, even the best 
+of the sorting algorithms would give us a time complexity of ```O(nlogn)``` and require an extra order
+of memory.
+Another simpler approach might be to keep count of the number of 0s, 1s and 2s in the array in three
+variables, and finally modifying the array accordingly. This approach is way better than sorting, however,
+it still requires us to make two passes through the array, which can be further optimized.
+
+## Optimal approach
+The optimal approach is to use three pointers, low, mid and high. These mark the boundaries accordingly
+where our numbers will finally land.
+The indices from 0 to low-1 will be occupied by 0s, from low to high-1 will be 1s, and high to the end of
+the array will be 2s. The loop continues as long as the third pointer, mid, reaches ahead of high.
+We write different cases for all three numbers so as to swap them on their appropriate place.
+## Solution
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                int temp1 = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp1;
+                low++;
+                mid++;
+            } else if (nums[mid] == 1)
+                mid++;
+            else {
+                int temp2 = nums[mid];
+                nums[mid] = nums[high];
+                nums[high] = temp2;
+                high--;
+            }
+        }
+    }
+}
+```
+
+## What I learned
+
+This problem gave me a brush up on the two pointer technique, as well as taught me the Dutch National Flag
+Algorithm.
